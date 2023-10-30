@@ -1,0 +1,18 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 28, 2023, 5:20:38 PM
+    Author     : pv
+*/
+
+.bg-white{
+    -fx-background-color:#fff;
+    -fx-effect:dropshadow(three-pass-box, rgba(0, 0, 0, .3), 8, 0, 0, 0);
+    -fx-background-radius:8px;
+}
+
+.bg-white:hover{
+     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, .5), 8, 0, 0, 0);
+}
