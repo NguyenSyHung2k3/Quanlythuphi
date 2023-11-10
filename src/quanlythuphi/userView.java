@@ -4,12 +4,9 @@
  */
 package quanlythuphi;
 
-import java.net.URL;
 import java.time.Year;
-import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -20,12 +17,14 @@ import javafx.stage.StageStyle;
  *
  * @author pv
  */
-public class khoanthuView extends Application{
+public class userView extends Application{
+    
     private double x=0;
     private double y=0;
+    
     @Override
-    public void start(Stage primaryStage) throws Exception {    
-        Parent root = FXMLLoader.load(getClass().getResource("/FXML/khoanthu.fxml"));
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/FXML/user.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         

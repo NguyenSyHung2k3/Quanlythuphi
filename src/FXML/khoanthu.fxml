@@ -10,19 +10,19 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="khoanthu_view" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.khoanthuController">
+<AnchorPane id="AnchorPane" fx:id="khoanthu_view" prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.khoanthuController">
    <children>
-      <AnchorPane prefHeight="30.0" prefWidth="800.0">
+      <AnchorPane layoutY="-1.0" prefHeight="30.0" prefWidth="850.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Button fx:id="back" layoutY="1.0" mnemonicParsing="false" onAction="#back" prefHeight="24.0" prefWidth="52.0" text="Back" />
-            <Button fx:id="close" layoutX="750.0" layoutY="2.0" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="52.0" AnchorPane.topAnchor="0.0">
-               <graphic>
-                  <FontAwesomeIcon glyphName="CLOSE" />
-               </graphic>
-            </Button>
-            <Button fx:id="minimize" layoutX="698.0" mnemonicParsing="false" onAction="#minimize" prefHeight="24.0" prefWidth="52.0" AnchorPane.topAnchor="0.0">
+            <Button fx:id="back" layoutY="1.0" mnemonicParsing="false" onAction="#back" prefHeight="24.0" prefWidth="52.0" text="Back" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="minimize" layoutX="757.0" mnemonicParsing="false" onAction="#minimize" prefHeight="24.0" prefWidth="52.0" AnchorPane.topAnchor="0.0">
                <graphic>
                   <FontAwesomeIcon glyphName="MINUS" />
+               </graphic>
+            </Button>
+            <Button fx:id="close" layoutX="809.0" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="52.0" AnchorPane.topAnchor="0.0">
+               <graphic>
+                  <FontAwesomeIcon glyphName="CLOSE" />
                </graphic>
             </Button>
          </children>
@@ -57,13 +57,14 @@
       </AnchorPane>
       <AnchorPane layoutX="281.0" layoutY="41.0" prefHeight="530.0" prefWidth="526.0" styleClass="bg-white" stylesheets="@../CSS/khoanthuDesign.css" AnchorPane.leftAnchor="255.0" AnchorPane.rightAnchor="19.0" AnchorPane.topAnchor="41.0">
          <children>
-            <TableView fx:id="table_view" layoutX="33.0" layoutY="54.4" onMouseClicked="#selectKhoanThu" prefHeight="446.0" prefWidth="480.0" AnchorPane.leftAnchor="24.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="54.0">
+            <TableView fx:id="table_view" layoutX="21.0" layoutY="55.0" onMouseClicked="#selectKhoanThu" prefHeight="446.0" prefWidth="534.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="21.399999999999977" AnchorPane.topAnchor="55.0">
                <columns>
                   <TableColumn fx:id="col_idKT" prefWidth="75.0" text="MãKT" />
                   <TableColumn fx:id="col_tenKT" prefWidth="75.0" text="TênKT" />
-                  <TableColumn fx:id="col_soTienKT" prefWidth="111.19999694824219" text="Số Tiền KT" />
-                  <TableColumn fx:id="col_status" prefWidth="83.20001220703125" text="Trạng Thái" />
-                  <TableColumn fx:id="col_idHo" prefWidth="130.4000244140625" text="IDHộ" />
+                  <TableColumn fx:id="col_soTienKT" prefWidth="97.59996032714844" text="Số Tiền KT" />
+                  <TableColumn fx:id="col_status" prefWidth="97.60003662109375" text="Trạng Thái" />
+                  <TableColumn fx:id="col_idHo" prefWidth="64.79986572265625" text="IDHộ" />
+                  <TableColumn fx:id="col_time" prefWidth="131.2000732421875" text="Thời gian cập nhật" />
                </columns>
             </TableView>
             <Label layoutX="206.0" layoutY="14.0" text="KhoanThu">

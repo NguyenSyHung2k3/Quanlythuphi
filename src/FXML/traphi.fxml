@@ -7,33 +7,34 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" fx:id="traphi_view" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.traphiController">
+<AnchorPane id="AnchorPane" fx:id="traphi_view" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.traphiController">
    <children>
-      <AnchorPane prefHeight="30.0" prefWidth="700.0">
+      <AnchorPane prefHeight="30.0" prefWidth="800.0">
          <children>
             <Button fx:id="back" layoutY="1.0" mnemonicParsing="false" onAction="#back" prefHeight="24.0" prefWidth="52.0" text="Back" AnchorPane.topAnchor="0.0" />
-            <Button fx:id="close" layoutX="674.0" layoutY="2.0" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="52.0" AnchorPane.topAnchor="0.0">
+            <Button fx:id="close" layoutX="748.0" mnemonicParsing="false" onAction="#close" prefHeight="24.0" prefWidth="52.0" AnchorPane.topAnchor="0.0">
                <graphic>
                   <FontAwesomeIcon glyphName="CLOSE" />
                </graphic>
             </Button>
-            <Button fx:id="minimize" layoutX="622.0" mnemonicParsing="false" onAction="#minimize" prefHeight="24.0" prefWidth="52.0" AnchorPane.topAnchor="0.0">
+            <Button fx:id="minimize" layoutX="696.0" mnemonicParsing="false" onAction="#minimize" prefHeight="24.0" prefWidth="52.0" AnchorPane.topAnchor="0.0">
                <graphic>
                   <FontAwesomeIcon glyphName="MINUS" />
                </graphic>
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="166.0" layoutY="58.0" prefHeight="442.0" prefWidth="538.0" styleClass="bg-white" stylesheets="@../CSS/traphiDesign.css" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="41.0">
+      <AnchorPane layoutX="166.0" layoutY="58.0" prefHeight="442.0" prefWidth="610.0" styleClass="bg-white" stylesheets="@../CSS/traphiDesign.css" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="41.0">
          <children>
-            <TableView fx:id="table_view" layoutX="22.0" layoutY="21.0" onMouseClicked="#selectTraPhi" prefHeight="402.0" prefWidth="501.0">
+            <TableView fx:id="table_view" layoutX="17.0" layoutY="20.0" onMouseClicked="#selectTraPhi" prefHeight="402.0" prefWidth="576.0">
                <columns>
-                  <TableColumn fx:id="col_idKT" prefWidth="75.0" text="MãKT" />
-                  <TableColumn fx:id="col_tenKT" prefWidth="75.0" text="TênKT" />
-                  <TableColumn fx:id="col_idHo" prefWidth="75.0" text="Mã Hộ" />
-                  <TableColumn fx:id="col_sotienKT" prefWidth="75.0" text="Số Tiền KT" />
-                  <TableColumn fx:id="col_sotienTP" prefWidth="92.800048828125" text="Số Tiền TP" />
-                  <TableColumn fx:id="col_time" prefWidth="107.19998168945312" text="Thời gian" />
+                  <TableColumn fx:id="col_idKT" prefWidth="69.59997940063477" text="MãKT" />
+                  <TableColumn fx:id="col_tenKT" prefWidth="72.79998779296875" text="TênKT" />
+                  <TableColumn fx:id="col_idHo" prefWidth="76.79998779296875" text="Mã Hộ" />
+                  <TableColumn fx:id="col_sotienKT" prefWidth="82.40000915527344" text="Số Tiền KT" />
+                  <TableColumn fx:id="col_sotienTP" prefWidth="86.39996337890625" text="Số Tiền TP" />
+                  <TableColumn fx:id="col_time" minWidth="0.0" prefWidth="91.0" text="Cập nhật" />
+                  <TableColumn fx:id="col_timeTP" prefWidth="91.0" text="Thời gian trả" />
                </columns>
             </TableView>
          </children>

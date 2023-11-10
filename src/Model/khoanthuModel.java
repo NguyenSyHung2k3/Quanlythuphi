@@ -14,13 +14,15 @@ public class khoanthuModel {
     private final String tenKT;
     private final Double sotienKT;
     private final String status;
+    private final String time;
 
-    public khoanthuModel(Integer idHo, String idKT, String tenKT, Double sotienKT, String status) {
+    public khoanthuModel(Integer idHo, String idKT, String tenKT, Double sotienKT, String status, String time) {
         this.idHo = idHo;
         this.idKT = idKT;
         this.tenKT = tenKT;
         this.sotienKT = sotienKT;
         this.status = status;
+        this.time = time;
     }
 
     public Integer getIdHo() {
@@ -42,7 +44,8 @@ public class khoanthuModel {
     public String getStatus() {
         return status;
     }
-    
-    
-    
+
+    public String getTime() {
+        return time;
+    }
 }

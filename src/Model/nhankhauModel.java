@@ -16,14 +16,16 @@ public class nhankhauModel {
     private final String gender;
     private final String CCCD;
     private final Integer idHo;
+    private final String updateTime;
     
-    public nhankhauModel(Integer id, String name, Integer age, String gender, String CCCD, Integer idHo) {
+    public nhankhauModel(Integer id, String name, Integer age, String gender, String CCCD, Integer idHo, String updateTime) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.CCCD = CCCD;
         this.idHo = idHo;
+        this.updateTime = updateTime;
     }
 
     public Integer getId() {
@@ -51,5 +53,8 @@ public class nhankhauModel {
     public Integer getIdHo() {
         return idHo;
     }
-    
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
 }

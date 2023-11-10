@@ -5,6 +5,7 @@
 package Controller;
 
 import Connection.Conn;
+import Model.User;
 import java.net.URL;
 import java.security.interfaces.RSAKey;
 import java.util.ResourceBundle;
@@ -19,14 +20,20 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.StageStyle;
+import javax.print.ServiceUIFactory;
 /**
  *
  * @author pv
@@ -99,6 +106,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TextField forgot_confirmPassword;
     
+    @FXML
+    private ChoiceBox<?> role;
+
+    
     // Sign in form
     public void signIn_close(){
         System.exit(0);
@@ -107,6 +118,18 @@ public class FXMLDocumentController implements Initializable {
     public void signIn_minimize(){
         Stage stage = (Stage)signin_form.getScene().getWindow();
         stage.setIconified(true);
+    }
+    
+        // role
+    private String[] comboRole = {"user", "admin"};
+    
+    public void comboBox(){
+        List<String> list = new ArrayList<>();
+        for(String role : comboRole){
+            list.add(role);
+        }
+        ObservableList dataList = FXCollections.observableArrayList(list);
+        role.setItems(dataList);
     }
     
     private double x=0;
@@ -130,31 +153,66 @@ public class FXMLDocumentController implements Initializable {
                 alert.showAndWait();
             } else{
                 if(rs.next()){
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully Login!");
-                    alert.showAndWait();
                     
-                    signin_loginBtn.getScene().getWindow().hide();
+                    User.username = rs.getString("username");
                     
-                    Parent root = FXMLLoader.load(getClass().getResource("/FXML/dashboard.fxml"));
                     
-                    Scene scene = new Scene(root);
-                    Stage stage = new Stage();
-                    root.setOnMousePressed((MouseEvent e)->{
-                        x = e.getSceneX();
-                        y = e.getSceneY();
-                    });
+                    String check = rs.getString("role");
+                    if("admin".equals(check)){
+                        alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Information Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Successfully Login!");
+                        alert.showAndWait();
 
-                    root.setOnMouseDragged((MouseEvent e)->{
-                        stage.setX(e.getScreenX() - x);
-                        stage.setY(e.getScreenY() - y);
-                    });
-                    stage.initStyle(StageStyle.TRANSPARENT);
+                        signin_loginBtn.getScene().getWindow().hide();
 
-                    stage.setScene(scene);
-                    stage.show();
+                        Parent root = FXMLLoader.load(getClass().getResource("/FXML/dashboard.fxml"));
+
+                        Scene scene = new Scene(root);
+                        Stage stage = new Stage();
+                        root.setOnMousePressed((MouseEvent e)->{
+                            x = e.getSceneX();
+                            y = e.getSceneY();
+                        });
+
+                        root.setOnMouseDragged((MouseEvent e)->{
+                            stage.setX(e.getScreenX() - x);
+                            stage.setY(e.getScreenY() - y);
+                        });
+                        stage.initStyle(StageStyle.TRANSPARENT);
+
+                        stage.setScene(scene);
+                        stage.show();
+                    } else if("user".equals(check)){
+                        alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Information Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Successfully Login!");
+                        alert.showAndWait();
+
+                        signin_loginBtn.getScene().getWindow().hide();
+
+                        Parent root = FXMLLoader.load(getClass().getResource("/FXML/user.fxml"));
+
+                        Scene scene = new Scene(root);
+                        Stage stage = new Stage();
+                        root.setOnMousePressed((MouseEvent e)->{
+                            x = e.getSceneX();
+                            y = e.getSceneY();
+                        });
+
+                        root.setOnMouseDragged((MouseEvent e)->{
+                            stage.setX(e.getScreenX() - x);
+                            stage.setY(e.getScreenY() - y);
+                        });
+                        stage.initStyle(StageStyle.TRANSPARENT);
+
+                        stage.setScene(scene);
+                        stage.show();
+                    }
+                    
+                    
                     
                 } else {
                     alert = new Alert(Alert.AlertType.ERROR);
@@ -196,12 +254,13 @@ public class FXMLDocumentController implements Initializable {
         String username = signup_username.getText();
         String password = signup_password.getText();
         String email = signup_email.getText();
-        String query = "insert into account values('"+username+"', '"+password+"', '"+email+"');";
-        
+        String roles = (String) role.getSelectionModel().getSelectedItem();
+        String query = "insert into account values('"+username+"', '"+password+"', '"+email+"', '"+role.getSelectionModel().getSelectedItem()+"');";
+        String insertUser_id = "insert into user_id(username) values('"+username+"')";
         try{
             Alert alert;
             
-            if(username.isEmpty() || password.isEmpty() || email.isEmpty()){
+            if(username.isEmpty() || password.isEmpty() || email.isEmpty() || role.getSelectionModel().isEmpty()){
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -215,25 +274,36 @@ public class FXMLDocumentController implements Initializable {
                 alert.showAndWait();
             } else {
                 
-                if(!validEmail(email)){
+                String checkUserName = "select * from account where username = '"+username+"'";
+                ResultSet rs = c.s.executeQuery(checkUserName);
+                if(rs.next()){
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Message");
                     alert.setHeaderText(null);
-                    alert.setContentText("Invalid Email");
+                    alert.setContentText(username+" is already taken");
                     alert.showAndWait();
-                } else {                                
-                    c.s.executeUpdate(query);
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Message");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully create a new account!");
-                    alert.showAndWait();
-
-                    signup_email.setText("");
-                    signup_username.setText("");
-                    signup_password.setText("");   
                 }
+                else{
+                    if(!validEmail(email)){
+                        alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Invalid Email");
+                        alert.showAndWait();
+                    } else {                                
+                        c.s.executeUpdate(query);
+                        c.s.executeUpdate(insertUser_id);
+                        alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Information Message");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Successfully create a new account!");
+                        alert.showAndWait();
 
+                        signup_email.setText("");
+                        signup_username.setText("");
+                        signup_password.setText("");   
+                    }
+                }
             } 
             
         } catch(Exception e){
@@ -327,6 +397,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        comboBox();
     }    
     
 }

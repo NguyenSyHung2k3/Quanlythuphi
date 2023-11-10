@@ -69,6 +69,9 @@ public class khoanthuController implements Initializable{
     private TableColumn<khoanthuModel, String> col_tenKT;
     
     @FXML
+    private TableColumn<khoanthuModel, String> col_time;
+    
+    @FXML
     private TableView<khoanthuModel> table_view;
     
     @FXML
@@ -181,7 +184,7 @@ public class khoanthuController implements Initializable{
             ResultSet rs = c.s.executeQuery(query);
             while(rs.next()){
                 khoanthu = new khoanthuModel(rs.getInt("idHo"), rs.getString("idKT"), 
-                        rs.getString("tenKT"), rs.getDouble("sotienKT"), rs.getString("status"));
+                        rs.getString("tenKT"), rs.getDouble("sotienKT"), rs.getString("status"), rs.getString("time"));
                 dataList.add(khoanthu);
             }
         } catch(Exception e){
@@ -197,6 +200,7 @@ public class khoanthuController implements Initializable{
         col_tenKT.setCellValueFactory(new PropertyValueFactory<>("tenKT"));
         col_soTienKT.setCellValueFactory(new PropertyValueFactory<>("sotienKT"));
         col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        col_time.setCellValueFactory(new PropertyValueFactory<>("time"));
         table_view.setItems(showList);
     }
     
@@ -204,7 +208,7 @@ public class khoanthuController implements Initializable{
 
     public void updateBB(){
         Conn c = new Conn();
-        
+        String totalHouseHoldQuery = "select idHo from hokhau where soThanhVien >= 1";
         if(idKTBB.getText().isEmpty() ||
                 tenKTBB.getText().isEmpty() ||
                 sotienKTBB.getText().isEmpty()){
@@ -223,20 +227,17 @@ public class khoanthuController implements Initializable{
             clearBB();
         }
         else{
-            Conn c1 = new Conn();
-            String totalHouseHoldQuery = "select idHo from hokhau where soThanhVien >= 1";
             try{
-                ResultSet rs = c1.s.executeQuery(totalHouseHoldQuery);
+                ResultSet rs = c.s.executeQuery(totalHouseHoldQuery);
+                String query;
+                String updatePayCheck;
+                while(rs.next()){     
+                    query = "insert into khoanthu(idHo, idKT, tenKT, sotienKT, time) values('"+rs.getInt("idHo")+"', '"+idKTBB.getText()+"', '"+tenKTBB.getText()+"', '"+sotienKTBB.getText()+"', current_date());";
+                    c.s.executeUpdate(query);               
+                }
                 while(rs.next()){
-                    String query = "insert into khoanthu(idHo, idKT, tenKT, sotienKT) values('"+rs.getInt("idHo")+"', '"+idKTBB.getText()+"', '"+tenKTBB.getText()+"', '"+sotienKTBB.getText()+"');";
-                    c.s.executeUpdate(query);
-                    String updatePayCheck = "insert into traphi(idKT, tenKT, idHo, sotienKT) values('"+idKTBB.getText()+"', '"+tenKTBB.getText()+"', '"+rs.getInt("idHo")+"', '"+sotienKTBB.getText()+"');";
-                    Conn c2 = new Conn();
-                    try{
-                        c2.s.executeUpdate(updatePayCheck);
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
+                    updatePayCheck = "insert into traphi(idKT, tenKT, idHo, sotienKT, time) values('"+idKTBB.getText()+"', '"+tenKTBB.getText()+"', '"+rs.getInt("idHo")+"', '"+sotienKTBB.getText()+"', current_date());";
+                    c.s.executeUpdate(updatePayCheck);
                 }
             }catch(SQLException e){
                 e.printStackTrace();
@@ -249,7 +250,7 @@ public class khoanthuController implements Initializable{
     
     public void updateTN(){
         Conn c = new Conn();
-        String query = "insert into khoanthu(idHo, idKT, tenKT, sotienKT) values('"+idHoTN.getText()+"', '"+idKTTN.getText()+"', '"+tenKTTN.getText()+"', '"+sotienKTTN.getText()+"');";
+        String query = "insert into khoanthu(idHo, idKT, tenKT, sotienKT, time) values('"+idHoTN.getText()+"', '"+idKTTN.getText()+"', '"+tenKTTN.getText()+"', '"+sotienKTTN.getText()+"', current_date());";
         try {
             
             if(idKTTN.getText().isEmpty() || 
@@ -272,7 +273,7 @@ public class khoanthuController implements Initializable{
             }
             else{
                 c.s.executeUpdate(query);
-                String updatePayCheck = "insert into traphi(idKT, tenKT, idHo, sotienKT) values('"+idKTTN.getText()+"', '"+tenKTTN.getText()+"', '"+idHoTN.getText()+"', '"+sotienKTTN.getText()+"');";
+                String updatePayCheck = "insert into traphi(idKT, tenKT, idHo, sotienKT, time) values('"+idKTTN.getText()+"', '"+tenKTTN.getText()+"', '"+idHoTN.getText()+"', '"+sotienKTTN.getText()+"', current_date());";
                     Conn c2 = new Conn();
                     try{
                         c2.s.executeUpdate(updatePayCheck);
@@ -306,20 +307,30 @@ public class khoanthuController implements Initializable{
         String query = "delete from khoanthu where idKT = '"+idKTBB.getText()+"' and idHo = '"+idHoBB+"'";
         String query1 = "delete from traphi where idKT = '"+idKTBB.getText()+"' and idHo = '"+idHoBB+"'";
         Conn c = new Conn();
+        Alert alert;
+        Alert alert1;
         try {
             
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation Message");
-            alert.setHeaderText(null);
-            alert.setContentText("Are you sure that you want to delete it?");
+            if(Double.parseDouble(sotienKTBB.getText()) == 0){
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure that you want to delete it?");
             
-            Optional<ButtonType> buttonType = alert.showAndWait();
-            
-            if(buttonType.get() == ButtonType.OK){
-                c.s.executeUpdate(query);
-                c.s.executeUpdate(query1);
+                Optional<ButtonType> buttonType = alert.showAndWait();
+                if(buttonType.get() == ButtonType.OK){
+                    c.s.executeUpdate(query);
+                    c.s.executeUpdate(query1);
+                
+                } else {
+                    return;
+                }
             } else {
-                return;
+                alert1 = new Alert(Alert.AlertType.ERROR);
+                alert1.setTitle("Error Message");
+                alert1.setHeaderText(null);
+                alert1.setContentText("You can't delete this bill");
+                alert1.showAndWait();
             }
             
             showData();
@@ -331,7 +342,7 @@ public class khoanthuController implements Initializable{
     
     public void deleteTN(){
         String query = "delete from khoanthu where idKT = '"+idKTTN.getText()+"' and idHo = '"+idHoTN.getText()+"';";
-        String query1 = "delete from khoanthu where idKT = '"+idKTTN.getText()+"' and idHo = '"+idHoTN.getText()+"';";
+        String query1 = "delete from traphi where idKT = '"+idKTTN.getText()+"' and idHo = '"+idHoTN.getText()+"';";
         Conn c = new Conn();
         try {
             
@@ -375,6 +386,12 @@ public class khoanthuController implements Initializable{
             sotienKTTN.setText(String.valueOf(khoanthu.getSotienKT()));
             idHoTN.setText(String.valueOf(khoanthu.getIdHo()));
             clearBB();
+        } else if(s.startsWith("GX")){
+            idKTBB.setText(String.valueOf(khoanthu.getIdKT()));
+            tenKTBB.setText(khoanthu.getTenKT());
+            sotienKTBB.setText(String.valueOf(khoanthu.getSotienKT()));
+            idHoBB = khoanthu.getIdHo();
+            clearTN();
         }
 
         showData();

@@ -13,12 +13,14 @@ public class hokhauModel {
     private final Integer soThanhVien;
     private final String address;
     private final Integer soPhong;
+    private final Integer area;
 
-    public hokhauModel(Integer idHo, Integer soThanhVien, Integer soPhong, String address) {
+    public hokhauModel(Integer idHo, Integer soThanhVien, Integer soPhong, String address, Integer area) {
         this.idHo = idHo;
         this.soThanhVien = soThanhVien;
         this.soPhong = soPhong;
         this.address = address;
+        this.area = area;
     }
 
     public Integer getIdHo() {
@@ -36,7 +38,9 @@ public class hokhauModel {
     public Integer getSoPhong() {
         return soPhong;
     }
-    
-    
+
+    public Integer getArea() {
+        return area;
+    }
     
 }

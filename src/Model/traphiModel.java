@@ -17,14 +17,16 @@ public class traphiModel {
     private final double sotienKT;
     private final double sotienTP;
     private final String time;
+    private final String timeTP;
 
-    public traphiModel(String idKT, String tenKT, Integer idHo, double sotienKT, double sotienTP, String time) {
+    public traphiModel(String idKT, String tenKT, Integer idHo, double sotienKT, double sotienTP, String time, String timeTP) {
         this.idKT = idKT;
         this.tenKT = tenKT;
         this.idHo = idHo;
         this.sotienKT = sotienKT;
         this.sotienTP = sotienTP;
         this.time = time;
+        this.timeTP = timeTP;
     }
 
     public String getIdKT() {
@@ -49,6 +51,10 @@ public class traphiModel {
 
     public String getTime() {
         return time;
+    }
+
+    public String getTimeTP() {
+        return timeTP;
     }
     
 }

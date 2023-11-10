@@ -11,20 +11,24 @@ package Model;
 public class guixeModel {
     private final Integer id;
     private final Integer idHo;
-    private final String ten;
-    private final String kieu;
-    private final String bienso;
-    private final String cccd;
+    private final String name;
+    private final String kind;
+    private final String carNumber;
+    private final String CCCD;
+    private final String time;
+    private final String idKT;
 
-    public guixeModel(Integer id, Integer idHo, String ten, String kieu, String bienso, String cccd) {
+    public guixeModel(Integer id, Integer idHo, String name, String kind, String carNumber, String CCCD, String time, String idKT) {
         this.id = id;
         this.idHo = idHo;
-        this.ten = ten;
-        this.kieu = kieu;
-        this.bienso = bienso;
-        this.cccd = cccd;
+        this.name = name;
+        this.kind = kind;
+        this.carNumber = carNumber;
+        this.CCCD = CCCD;
+        this.time = time;
+        this.idKT = idKT;
     }
-
+    
     public Integer getId() {
         return id;
     }
@@ -33,22 +37,28 @@ public class guixeModel {
         return idHo;
     }
 
-    public String getTen() {
-        return ten;
+    public String getName() {
+        return name;
     }
 
-    public String getKieu() {
-        return kieu;
+    public String getKind() {
+        return kind;
     }
 
-    public String getBienso() {
-        return bienso;
+    public String getCarNumber() {
+        return carNumber;
     }
 
-    public String getCccd() {
-        return cccd;
+    public String getCCCD() {
+        return CCCD;
     }
-    
-    
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getIdKT() {
+        return idKT;
+    }
     
 }

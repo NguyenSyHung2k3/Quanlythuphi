@@ -71,6 +71,9 @@ public class nhankhauController implements Initializable{
     
     @FXML
     private TableColumn<nhankhauModel, Integer> col_idHo;
+    
+    @FXML
+    private TableColumn<nhankhauModel, String> col_updateTime;
 
     @FXML
     private ComboBox<?> gender;
@@ -92,9 +95,6 @@ public class nhankhauController implements Initializable{
 
     @FXML
     private Button delete;
-    
-    @FXML
-    private Button insert;
 
     @FXML
     private Button update;
@@ -133,7 +133,7 @@ public class nhankhauController implements Initializable{
             ResultSet rs = c.s.executeQuery(query);
             while(rs.next()){
                 nhankhau = new nhankhauModel(rs.getInt("id"), rs.getString("name"), 
-                        rs.getInt("age"), rs.getString("gender"), rs.getString("CCCD"), rs.getInt("idHo"));
+                        rs.getInt("age"), rs.getString("gender"), rs.getString("CCCD"), rs.getInt("idHo"), rs.getString("updateTime"));
                 dataList.add(nhankhau);
             }
         } catch(Exception e){
@@ -150,46 +150,47 @@ public class nhankhauController implements Initializable{
         col_gender.setCellValueFactory(new PropertyValueFactory<>("gender"));
         col_CCCD.setCellValueFactory(new PropertyValueFactory<>("CCCD"));
         col_idHo.setCellValueFactory(new PropertyValueFactory<>("idHo"));
+        col_updateTime.setCellValueFactory(new PropertyValueFactory<>("updateTime"));
         table_view.setItems(showList);
     }
     
     // insert
-    public void insert(){
-        Conn c = new Conn();
-        String query = "insert into nhankhau values('"+id.getText()+"', '"+name.getText()+"', '"+age.getText()+"', '"+gender.getSelectionModel().getSelectedItem()+"', '"+CCCD.getText()+"', '"+idHo.getText()+"');";
-        String query1 = "insert into quanhe values ('"+id.getText()+"', '"+idHo.getText()+"')";
-        try {
-            
-            if(id.getText().isEmpty() || 
-                    name.getText().isEmpty() || 
-                    age.getText().isEmpty() || 
-                    gender.getSelectionModel().isEmpty() || 
-                    CCCD.getText().isEmpty() ||
-                    idHo.getText().isEmpty()){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error Message");
-                alert.setHeaderText(null);
-                alert.setContentText("Enter all blank fields");
-                alert.showAndWait();
-            }
-            else{
-                c.s.executeUpdate(query);
-                c.s.executeUpdate(query1);
-//                Conn c1 = new Conn();
-//                try{
-//                    c1.s.executeUpdate(queryUpdate);
-//                }catch(Exception e){
-//                    e.printStackTrace();
-//                }
-//                
-                showData();
-                clear();
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(nhankhauController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+//    public void insert(){
+//        Conn c = new Conn();
+//        String query = "insert into nhankhau values('"+id.getText()+"', '"+name.getText()+"', '"+age.getText()+"', '"+gender.getSelectionModel().getSelectedItem()+"', '"+CCCD.getText()+"', '"+idHo.getText()+"');";
+//        String query1 = "insert into quanhe values ('"+id.getText()+"', '"+idHo.getText()+"')";
+//        try {
+//            
+//            if(id.getText().isEmpty() || 
+//                    name.getText().isEmpty() || 
+//                    age.getText().isEmpty() || 
+//                    gender.getSelectionModel().isEmpty() || 
+//                    CCCD.getText().isEmpty() ||
+//                    idHo.getText().isEmpty()){
+//                Alert alert = new Alert(Alert.AlertType.ERROR);
+//                alert.setTitle("Error Message");
+//                alert.setHeaderText(null);
+//                alert.setContentText("Enter all blank fields");
+//                alert.showAndWait();
+//            }
+//            else{
+//                c.s.executeUpdate(query);
+//                c.s.executeUpdate(query1);
+////                Conn c1 = new Conn();
+////                try{
+////                    c1.s.executeUpdate(queryUpdate);
+////                }catch(Exception e){
+////                    e.printStackTrace();
+////                }
+////                
+//                showData();
+//                clear();
+//            }
+//            
+//        } catch (SQLException ex) {
+//            Logger.getLogger(nhankhauController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
     
     // select data
     public void selectNhankhau(){
@@ -199,6 +200,7 @@ public class nhankhauController implements Initializable{
         if((num-1) < -1)
             return;
         id.setText(String.valueOf(nhankhau.getId()));
+        id.setDisable(true);
         name.setText(nhankhau.getName());
         age.setText(String.valueOf(nhankhau.getAge()));
         gender.getSelectionModel().getSelectedItem();
@@ -210,7 +212,7 @@ public class nhankhauController implements Initializable{
     // update data
     public void update(){
         Conn c = new Conn();
-        String query = "update nhankhau set name = '"+name.getText()+"', age = '"+age.getText()+"', gender = '"+gender.getSelectionModel().getSelectedItem()+"', CCCD = '"+CCCD.getText()+"', idHo = '"+idHo.getText()+"' where id = '"+id.getText()+"'";
+        String query = "update nhankhau set name = '"+name.getText()+"', age = '"+age.getText()+"', gender = '"+gender.getSelectionModel().getSelectedItem()+"', CCCD = '"+CCCD.getText()+"', idHo = '"+idHo.getText()+"', updateTime = current_date() where id = '"+id.getText()+"'";
         String query1 = "update quanhe set id = '"+id.getText()+"', idHo = '"+idHo.getText()+"'";
         try{
             c.s.executeUpdate(query);

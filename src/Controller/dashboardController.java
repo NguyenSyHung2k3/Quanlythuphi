@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import Model.User;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -49,6 +51,9 @@ public class dashboardController implements Initializable{
     
     @FXML
     private Button traphiBtn;
+    
+    @FXML
+    private Label user;
     
     public void close(){
         System.exit(0);
@@ -106,7 +111,6 @@ public class dashboardController implements Initializable{
     public void changePage(){
         if(nhankhauBtn.isFocused()){
             nhankhauBtn.getScene().getWindow().hide();
-        
             try{
                 Parent root = FXMLLoader.load(getClass().getResource("/FXML/nhankhau.fxml"));
                 Scene scene = new Scene(root);
@@ -137,7 +141,6 @@ public class dashboardController implements Initializable{
         }
         if(hokhauBtn.isFocused()){
             hokhauBtn.getScene().getWindow().hide();
-        
             try{
                 Parent root = FXMLLoader.load(getClass().getResource("/FXML/hokhau.fxml"));
                 Scene scene = new Scene(root);
@@ -168,7 +171,6 @@ public class dashboardController implements Initializable{
         }
         if(khoanthuBtn.isFocused()){
             khoanthuBtn.getScene().getWindow().hide();
-        
             try{
                 Parent root = FXMLLoader.load(getClass().getResource("/FXML/khoanthu.fxml"));
                 Scene scene = new Scene(root);
@@ -199,7 +201,6 @@ public class dashboardController implements Initializable{
         }
         if(traphiBtn.isFocused()){
             traphiBtn.getScene().getWindow().hide();
-        
             try{
                 Parent root = FXMLLoader.load(getClass().getResource("/FXML/traphi.fxml"));
                 Scene scene = new Scene(root);
@@ -230,7 +231,6 @@ public class dashboardController implements Initializable{
         }
         if(guixeBtn.isFocused()){
             guixeBtn.getScene().getWindow().hide();
-        
             try{
                 Parent root = FXMLLoader.load(getClass().getResource("/FXML/guixe.fxml"));
                 Scene scene = new Scene(root);
@@ -262,9 +262,12 @@ public class dashboardController implements Initializable{
         
     }
     
+    public void account(){
+        user.setText(User.username);
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        account();
     }
     
     

@@ -60,6 +60,9 @@ public class traphiController implements Initializable{
     private TableColumn<traphiModel, Date> col_time;
     
     @FXML
+    private TableColumn<traphiModel, String> col_timeTP;
+    
+    @FXML
     private TableView<traphiModel> table_view;
 
     @FXML
@@ -148,7 +151,7 @@ public class traphiController implements Initializable{
             ResultSet rs = c.s.executeQuery(query);
             while(rs.next()){
                 traphi = new traphiModel(rs.getString("idKT"), rs.getString("tenKT"), 
-                        rs.getInt("idHo"), rs.getDouble("sotienKT"), rs.getDouble("sotienTP"), rs.getString("time"));
+                        rs.getInt("idHo"), rs.getDouble("sotienKT"), rs.getDouble("sotienTP"), rs.getString("time"), rs.getString("timeTP"));
                 dataList.add(traphi);
             }
         } catch(Exception e){
@@ -165,6 +168,7 @@ public class traphiController implements Initializable{
         col_sotienKT.setCellValueFactory(new PropertyValueFactory<>("sotienKT"));
         col_sotienTP.setCellValueFactory(new PropertyValueFactory<>("sotienTP"));
         col_time.setCellValueFactory(new PropertyValueFactory<>("time"));
+        col_timeTP.setCellValueFactory(new PropertyValueFactory<>("timeTP"));
         table_view.setItems(showList);
     }
     
@@ -206,20 +210,21 @@ public class traphiController implements Initializable{
                 c.s.executeUpdate(query);
                 String updateKhoanThu = "update khoanthu set sotienKT = '"+0+"' where idKT = '"+idKT.getText()+"' and idHo = '"+idHo.getText()+"'";
                 String updateStatus = "update khoanthu set status = '"+"hoanthanh"+"' where idKT = '"+idKT.getText()+"' and idHo = '"+idHo.getText()+"'";
+                String updateTimeKhoanThu = "update khoanthu set time = current_date() where idKT = '"+idKT.getText()+"' and idHo = '"+idHo.getText()+"'";
+                String updateTraPhi = "update traphi set timeTP = current_date() where idKT = '"+idKT.getText()+"' and idHo = '"+idHo.getText()+"'";
                 c.s.executeUpdate(updateKhoanThu);
                 c.s.executeUpdate(updateStatus);
+                c.s.executeUpdate(updateTimeKhoanThu);
+                c.s.executeUpdate(updateTraPhi);
                 showData();
             }
         }catch(Exception e){
             e.printStackTrace();
         }
     }
-    
-    
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         showData();
     }
-    
 }

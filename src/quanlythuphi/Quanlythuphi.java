@@ -20,7 +20,7 @@ public class Quanlythuphi extends Application {
     
     private double x;
     private double y;
-  
+    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/FXML/FXMLDocument.fxml"));
