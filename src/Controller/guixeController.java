@@ -229,18 +229,24 @@ public class guixeController implements Initializable{
                 if(kind.getSelectionModel().getSelectedItem() == "xe đạp"){
                     String updateKhoanThu = "insert into khoanthu(idHo, idKT, tenKT, sotienKT) values('"+idHo.getText()+"', '"+idKT+"', '"+"gửi xe"+"', '"+15000+"')";
                     String updateTraPhi = "insert into traphi values('"+idKT+"', '"+"gửi xe"+"', '"+idHo.getText()+"', '"+15000+"', '"+15000+"', current_date())";
+                    String updateThongKe = "update thongke set debt = debt + '"+15000+"', time = current_date() where idHo = '"+idHo.getText()+"'";
                     c.s.executeUpdate(updateKhoanThu);
                     c.s.executeUpdate(updateTraPhi);
+                    c.s.executeUpdate(updateThongKe);
                 } else if(kind.getSelectionModel().getSelectedItem() == "xe máy"){
                     String updateKhoanThu = "insert into khoanthu(idHo, idKT, tenKT, sotienKT) values('"+idHo.getText()+"', '"+idKT+"', '"+"gửi xe"+"', '"+70000+"')";
                     String updateTraPhi = "insert into traphi values('"+idKT+"', '"+"gửi xe"+"', '"+idHo.getText()+"', '"+70000+"', '"+70000+"', current_date())";
+                    String updateThongKe = "update thongke set debt = debt + '"+70000+"', time = current_date() where idHo = '"+idHo.getText()+"'";
                     c.s.executeUpdate(updateKhoanThu);
                     c.s.executeUpdate(updateTraPhi);
+                    c.s.executeUpdate(updateThongKe);
                 } else if(kind.getSelectionModel().getSelectedItem() == "xe ô tô"){
                     String updateKhoanThu = "insert into khoanthu(idHo, idKT, tenKT, sotienKT) values('"+idHo.getText()+"', '"+idKT+"', '"+"gửi xe"+"', '"+1200000+"')";
                     String updateTraPhi = "insert into traphi values('"+idKT+"', '"+"gửi xe"+"', '"+idHo.getText()+"', '"+1200000+"', '"+1200000+"', current_date())";
+                    String updateThongKe = "update thongke set debt = debt + '"+1200000+"', time = current_date() where idHo = '"+idHo.getText()+"'";
                     c.s.executeUpdate(updateKhoanThu);
                     c.s.executeUpdate(updateTraPhi);
+                    c.s.executeUpdate(updateThongKe);
                 }
                 showData();
                 clear();

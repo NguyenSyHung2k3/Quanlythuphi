@@ -35,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import oracle.jdbc.driver.DatabaseError;
 
 /**
  *
@@ -227,21 +228,36 @@ public class khoanthuController implements Initializable{
             clearBB();
         }
         else{
+            
+            Double sotienBB = Double.parseDouble(sotienKTBB.getText());
+            
             try{
-                ResultSet rs = c.s.executeQuery(totalHouseHoldQuery);
-                String query;
-                String updatePayCheck;
-                while(rs.next()){     
-                    query = "insert into khoanthu(idHo, idKT, tenKT, sotienKT, time) values('"+rs.getInt("idHo")+"', '"+idKTBB.getText()+"', '"+tenKTBB.getText()+"', '"+sotienKTBB.getText()+"', current_date());";
-                    c.s.executeUpdate(query);               
+                try(ResultSet rs = c.s.executeQuery(totalHouseHoldQuery)){
+
+                    while(rs.next()){    
+                        Integer idHo = rs.getInt("idHo");
+                        
+                        try{
+                            String query = "insert into khoanthu(idHo, idKT, tenKT, sotienKT, time) values('"+idHo+"', '"+idKTBB.getText()+"', '"+tenKTBB.getText()+"', '"+sotienKTBB.getText()+"', current_date());";
+                            c.s.executeUpdate(query);    
+                            String updatePayCheck = "insert into traphi(idKT, tenKT, idHo, sotienKT, time) values('"+idKTBB.getText()+"', '"+tenKTBB.getText()+"', '"+idHo+"', '"+sotienKTBB.getText()+"', current_date());";
+                            c.s.executeUpdate(updatePayCheck);
+                            String thongkeUpdate = "update thongke set debt = debt + '"+sotienBB+"', time = current_date() where idHo = '"+idHo+"'";
+                            c.s.executeUpdate(thongkeUpdate);
+                        } catch(Exception e){
+                            
+                        }
+                        
+                    }   
+//                
                 }
-                while(rs.next()){
-                    updatePayCheck = "insert into traphi(idKT, tenKT, idHo, sotienKT, time) values('"+idKTBB.getText()+"', '"+tenKTBB.getText()+"', '"+rs.getInt("idHo")+"', '"+sotienKTBB.getText()+"', current_date());";
-                    c.s.executeUpdate(updatePayCheck);
-                }
+//                while(rs.next()){
+
+//                }
             }catch(SQLException e){
                 e.printStackTrace();
             }
+            
 
             showData();
             clearBB();
@@ -272,11 +288,15 @@ public class khoanthuController implements Initializable{
                 clearTN();
             }
             else{
+                Double sotienTN = Double.parseDouble(sotienKTTN.getText());
                 c.s.executeUpdate(query);
                 String updatePayCheck = "insert into traphi(idKT, tenKT, idHo, sotienKT, time) values('"+idKTTN.getText()+"', '"+tenKTTN.getText()+"', '"+idHoTN.getText()+"', '"+sotienKTTN.getText()+"', current_date());";
-                    Conn c2 = new Conn();
+                String thongkeUpdate = "update thongke set debt = debt + '"+sotienTN+"', time = current_date() where idHo = '"+idHoTN.getText()+"'";
+                Conn c2 = new Conn();
                     try{
                         c2.s.executeUpdate(updatePayCheck);
+                        
+                        c2.s.executeUpdate(thongkeUpdate);
                     }catch(Exception e){
                         e.printStackTrace();
                     }

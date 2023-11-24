@@ -4,9 +4,15 @@
  */
 package Controller;
 
+import Connection.Conn;
 import Model.User;
+import Model.thongkeModel;
+import Model.traphiModel;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +20,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -54,6 +64,32 @@ public class dashboardController implements Initializable{
     
     @FXML
     private Label user;
+    
+    @FXML
+    private TableColumn<thongkeModel, Integer> idHo_col;
+    @FXML
+    private TableView<thongkeModel> table_view;
+
+    @FXML
+    private TableColumn<thongkeModel, Double> tienNop_col;
+
+    @FXML
+    private TableColumn<thongkeModel, Double> tienThieu_col;
+
+    @FXML
+    private TableColumn<thongkeModel, String> time_col;
+    
+    @FXML
+    private TextField soTienTungHo;
+    
+    @FXML
+    private TextField idHo;
+    
+    @FXML
+    private Label totalAmount;
+    
+    @FXML
+    private Button clear;
     
     public void close(){
         System.exit(0);
@@ -262,14 +298,93 @@ public class dashboardController implements Initializable{
         
     }
     
+    // showdata
+    public ObservableList<thongkeModel> dataList(){
+        
+        ObservableList<thongkeModel> dataList = FXCollections.observableArrayList();
+        
+        String query = "select thongke.* from thongke, hokhau where thongke.idHo = hokhau.idHo and hokhau.soThanhVien >= 1";
+        Conn c = new Conn();
+        thongkeModel thongke;
+        try{
+            ResultSet rs = c.s.executeQuery(query);
+            while(rs.next()){
+                thongke = new thongkeModel(rs.getString("time"), rs.getDouble("sotien"), 
+                        rs.getInt("idHo"), rs.getDouble("debt"));
+                dataList.add(thongke);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return dataList;
+    }
+    
+    public void showData(){
+        ObservableList<thongkeModel> showList = dataList();
+        time_col.setCellValueFactory(new PropertyValueFactory<>("time"));
+        idHo_col.setCellValueFactory(new PropertyValueFactory<>("idHo"));
+        tienNop_col.setCellValueFactory(new PropertyValueFactory<>("soTien"));
+        tienThieu_col.setCellValueFactory(new PropertyValueFactory<>("debt"));
+        table_view.setItems(showList);
+    }
+    
     public void account(){
         user.setText(User.username);
     }
+    
+    public void clear(){
+        Conn c = new Conn();
+        String deleteThongke = "update thongke set soTien = 0, debt = 0, time = null";
+        try {
+            c.s.executeUpdate(deleteThongke);
+        } catch (Exception e) {
+            
+        }
+    }
+    
+    public void searchIdHo(){
+        Conn c = new Conn();
+        String query = "select soTien from thongke where idHo = '"+idHo.getText()+"'";
+        Double sum = 0.0;
+        ResultSet rs;
+        try {
+            rs = c.s.executeQuery(query);
+            while(rs.next()){
+                sum+=Double.parseDouble(rs.getString("soTien"));
+            }
+        } catch (Exception e) {
+            
+        }
+        
+        soTienTungHo.setText(String.valueOf(sum));
+        
+    }
+    
+    public void total(){
+        Conn c = new Conn();
+        String query = "select soTien from thongke";
+        Double sum = 0.0;
+        try {
+            ResultSet rs = c.s.executeQuery(query);
+            while(rs.next()){
+                sum+=Double.parseDouble(rs.getString("soTien"));
+            }
+        } catch (Exception e) {
+            
+        }
+        totalAmount.setText(String.valueOf(sum));
+    }
+
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         account();
+        showData();
+        total();
+//        showInfo();
+        soTienTungHo.setDisable(true);
+
     }
-    
     
     
 }

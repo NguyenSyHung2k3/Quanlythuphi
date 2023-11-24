@@ -179,9 +179,13 @@ public class traphiController implements Initializable{
         if((num-1) < -1)
             return;
         idKT.setText(traphi.getIdKT());
+        idKT.setDisable(true);
         tenKT.setText(traphi.getTenKT());
+        tenKT.setDisable(true);
         idHo.setText(String.valueOf(traphi.getIdHo()));
+        idHo.setDisable(true);
         sotienKT.setText(String.valueOf(traphi.getSotienKT()));
+        sotienKT.setDisable(true);
 
         showData();
     }
@@ -212,10 +216,12 @@ public class traphiController implements Initializable{
                 String updateStatus = "update khoanthu set status = '"+"hoanthanh"+"' where idKT = '"+idKT.getText()+"' and idHo = '"+idHo.getText()+"'";
                 String updateTimeKhoanThu = "update khoanthu set time = current_date() where idKT = '"+idKT.getText()+"' and idHo = '"+idHo.getText()+"'";
                 String updateTraPhi = "update traphi set timeTP = current_date() where idKT = '"+idKT.getText()+"' and idHo = '"+idHo.getText()+"'";
+                String updateThongke = "update thongke set sotien = sotien + '"+traphi+"',debt = debt - '"+traphi+"' ,time = current_date() where idHo ='"+idHo.getText()+"'";
                 c.s.executeUpdate(updateKhoanThu);
                 c.s.executeUpdate(updateStatus);
                 c.s.executeUpdate(updateTimeKhoanThu);
                 c.s.executeUpdate(updateTraPhi);
+                c.s.executeUpdate(updateThongke);
                 showData();
             }
         }catch(Exception e){

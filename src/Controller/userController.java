@@ -24,10 +24,15 @@ import javafx.stage.Stage;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.StageStyle;
 /**
  *
  * @author pv
@@ -142,6 +147,9 @@ public class userController implements Initializable{
     @FXML
     private Label name_after;
     
+    @FXML
+    private Button signout;
+    
     public void minimize(){
         Stage stage = (Stage)user_view.getScene().getWindow();
         stage.setIconified(true);
@@ -202,6 +210,50 @@ public class userController implements Initializable{
         gender.getSelectionModel().clearSelection();
         CCCD.setText("");
         idHo.setText("");
+    }
+    
+    private double x=0;
+    private double y=0;
+    
+    public void signout(){
+        signout.getScene().getWindow().hide();
+        
+        try{
+    //                NAME OF LOGIN FORM
+            Parent root = FXMLLoader.load(getClass().getResource("/FXML/FXMLDocument.fxml"));
+
+            Scene scene = new Scene(root);
+
+            Stage stage = new Stage();
+
+            root.setOnMousePressed((MouseEvent event) ->{
+                
+                x = event.getSceneX();
+                y = event.getSceneY();
+                                
+            });
+            
+            root.setOnMouseDragged((MouseEvent event) ->{
+                
+                stage.setX(event.getScreenX() - x);
+                stage.setY(event.getScreenY() - y);
+                
+                stage.setOpacity(0.8);
+                
+            });
+            
+            root.setOnMouseReleased((MouseEvent event) ->{
+                
+                stage.setOpacity(1);
+                
+            });
+            
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.setScene(scene);
+            stage.show();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
     // Hokhau

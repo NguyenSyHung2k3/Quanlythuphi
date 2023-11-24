@@ -42,6 +42,16 @@
                   <Font name="Microsoft Sans Serif" size="23.0" />
                </font>
             </Label>
+            <Button fx:id="signout" layoutX="19.0" layoutY="509.0" mnemonicParsing="false" onAction="#signout" styleClass="signout" stylesheets="@../CSS/dashboardDesign.css">
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="SIGN_OUT" size="1.6em" />
+               </graphic>
+            </Button>
+            <Label layoutX="63.0" layoutY="512.0" text="Sign Out" textFill="WHITE">
+               <font>
+                  <Font name="Microsoft Sans Serif" size="18.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="nhankhau_view" layoutX="239.0" layoutY="43.0" prefHeight="500.0" prefWidth="400.0" styleClass="bg-white" stylesheets="@../CSS/dashboardDesign.css" visible="false" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="40.0">

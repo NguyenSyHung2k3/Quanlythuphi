@@ -120,8 +120,9 @@ public class nhankhauController implements Initializable{
         gender.setItems(dataList);
         
     }
-    
+
     // showdata
+    
     public ObservableList<nhankhauModel> dataList(){
         
         ObservableList<nhankhauModel> dataList = FXCollections.observableArrayList();
@@ -142,8 +143,10 @@ public class nhankhauController implements Initializable{
         return dataList;
     }
     
+    private ObservableList<nhankhauModel> showList;
+    
     public void showData(){
-        ObservableList<nhankhauModel> showList = dataList();
+        showList = dataList();
         col_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         col_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         col_age.setCellValueFactory(new PropertyValueFactory<>("age"));
@@ -318,37 +321,41 @@ public class nhankhauController implements Initializable{
         }
     }
     
-    public void search(){
+    // search
+    
+    public void searching(){
         
-        FilteredList<nhankhauModel> filter = new FilteredList<>(dataList(), e->true);
+        FilteredList<nhankhauModel> filter = new FilteredList<>(showList, e->true);
         search.textProperty().addListener((observable, oldValue, newValue) -> {
         
-            filter.setPredicate((var predicate)->{
-                if(newValue.isEmpty() || newValue == null){
+            filter.setPredicate(predicate->{
+                if(newValue.isEmpty() || newValue.isBlank() || newValue == null){
                     return true;
                 }
                 
                 String keySearch = newValue.toLowerCase();
-                if(predicate.getName().toLowerCase().contains(keySearch)){
+                if(predicate.getName().toLowerCase().indexOf(keySearch) > -1){
                     return true;
-                } else if(predicate.getCCCD().toLowerCase().contains(keySearch)){
+                } else if(predicate.getCCCD().toLowerCase().indexOf(keySearch) > -1){
                     return true;
-                } else if(predicate.getId().toString().contains(keySearch)){
+                } else if(predicate.getId().toString().indexOf(keySearch) > -1){
                     return true;
-                } else if(predicate.getIdHo().toString().contains(keySearch)){
+                } else if(predicate.getIdHo().toString().indexOf(keySearch) > -1){
                     return true;
                 }
                 
                 return false;
+                
             });
             
-        
         });
         SortedList<nhankhauModel> sortNhankhau = new SortedList<>(filter);
         sortNhankhau.comparatorProperty().bind(table_view.comparatorProperty());
         table_view.setItems(sortNhankhau);
         
     }
+    
+    
     
     
     @Override

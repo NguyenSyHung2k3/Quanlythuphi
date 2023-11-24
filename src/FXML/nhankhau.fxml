@@ -28,7 +28,7 @@
             <Button fx:id="update" layoutX="38.0" layoutY="339.0" mnemonicParsing="false" onAction="#update" styleClass="update-btn" stylesheets="@../CSS/nhankhauDesign.css" text="Update" />
             <Label layoutX="16.0" layoutY="286.0" prefHeight="18.0" prefWidth="54.0" text="IDHộ:" AnchorPane.topAnchor="286.0" />
             <TextField fx:id="idHo" layoutX="71.0" layoutY="280.0" prefHeight="26.0" prefWidth="130.0" styleClass="add-textfield" stylesheets="@../CSS/nhankhauDesign.css" AnchorPane.leftAnchor="71.0" AnchorPane.topAnchor="280.0" />
-            <TextField fx:id="search" layoutX="34.0" layoutY="21.0" onKeyTyped="#search" prefHeight="31.0" prefWidth="168.0" promptText="Search..." styleClass="search" stylesheets="@../CSS/nhankhauDesign.css" />
+            <TextField fx:id="search" layoutX="34.0" layoutY="21.0" onKeyTyped="#searching" prefHeight="31.0" prefWidth="168.0" promptText="Search..." styleClass="search" stylesheets="@../CSS/nhankhauDesign.css" />
             <FontAwesomeIcon glyphName="SEARCH" layoutX="9.0" layoutY="41.0" size="1.2em" />
          </children>
       </AnchorPane>
